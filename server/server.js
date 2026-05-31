@@ -3,16 +3,16 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import { connectDB } from "./config/db.js";
-import authRoutes from "./routes/auth.routes.js";
-import productRoutes from "./routes/product.routes.js";
-import cartRoutes from "./routes/cart.routes.js";
-import wishlistRoutes from "./routes/wishlist.routes.js";
-import orderRoutes from "./routes/order.routes.js";
-import adminRoutes from "./routes/admin.routes.js";
-import uploadRoutes from "./routes/upload.routes.js";
-import paymentRoutes from "./routes/payment.routes.js";
-import { errorHandler, notFound } from "./middleware/error.js";
+import { connectDB } from "./src/config/db.js";
+import authRoutes from "./src/routes/auth.routes.js";
+import productRoutes from "./src/routes/product.routes.js";
+import cartRoutes from "./src/routes/cart.routes.js";
+import wishlistRoutes from "./src/routes/wishlist.routes.js";
+import orderRoutes from "./src/routes/order.routes.js";
+import adminRoutes from "./src/routes/admin.routes.js";
+import uploadRoutes from "./src/routes/upload.routes.js";
+import paymentRoutes from "./src/routes/payment.routes.js";
+import { errorHandler, notFound } from "./src/middleware/error.js";
 
 dotenv.config();
 

@@ -62,7 +62,7 @@ const categories = [
     lightBg: "from-pink-300/20 to-pink-100/60",
   },
   {
-    name: "Wearbles",
+    name: "Wearables",
     icon: Watch,
     accent: "#4ade80",
     lightAccent: "#16A34A",

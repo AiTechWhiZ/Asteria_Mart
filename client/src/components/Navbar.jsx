@@ -15,7 +15,10 @@ import {
   Headphones,
   Smartphone,
   Camera,
+  Watch,
+  Package,
   ChevronRight,
+  HomeIcon,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -28,12 +31,32 @@ const FONT = "'Syne', sans-serif";
 const FONT_MONO = "'DM Mono', monospace";
 
 const CATEGORIES = [
-  { icon: Monitor, label: "Displays & TVs", href: "/products?cat=displays" },
-  { icon: Cpu, label: "Processors & GPUs", href: "/products?cat=cpu" },
-  { icon: Smartphone, label: "Smartphones", href: "/products?cat=phones" },
-  { icon: Headphones, label: "Audio", href: "/products?cat=audio" },
-  { icon: Camera, label: "Cameras & Optics", href: "/products?cat=cameras" },
-  { icon: Zap, label: "Accessories", href: "/products?cat=accessories" },
+  {
+    icon: Smartphone,
+    label: "Smartphones & Tablets",
+    href: "/products?category=Phones",
+  },
+  {
+    icon: Monitor,
+    label: "Laptops & PC's",
+    href: "/products?category=Computers",
+  },
+  {
+    icon: Headphones,
+    label: "Earbuds & Headphones",
+    href: "/products?category=Audio",
+  },
+  { icon: Watch, label: "Wearables", href: "/products?category=Wearables " },
+  {
+    icon: Package,
+    label: "Accessories",
+    href: "/products?category=Accessories",
+  },
+  {
+    icon: HomeIcon,
+    label: "TV's & AC's",
+    href: "/products?category=Home Appliances",
+  },
 ];
 
 const NAV_LINKS = [
@@ -358,6 +381,8 @@ export default function Navbar() {
           --c-accent:    #00e5c4;
           --c-accent2:   #6c63ff;
           --c-accent3:   #ff5f87;
+          --logo-accent: #00e5c4;
+          --logo-accent2: #6c63ff;
           --c-glass:     rgba(10,10,18,0.72);
           --nav-h:       clamp(56px, 12vw, 64px);
           --font:        ${FONT};
@@ -380,6 +405,8 @@ export default function Navbar() {
           --c-text:    #0d0d1a;
           --c-muted:   #666680;
           --c-glass: rgba(124, 58, 237, 0.15);
+          --logo-accent: #7c3aed;
+          --logo-accent2: #ec4899;
         }
 
         /* ─ Navbar shell ─ */
@@ -439,7 +466,7 @@ export default function Navbar() {
           display: block;
           width: 100%;
           height: 100%;
-          background: linear-gradient(135deg, var(--c-accent), var(--c-accent2));
+          background: linear-gradient(135deg, var(--logo-accent), var(--logo-accent2));
           clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
           transition: transform var(--trans);
         }
@@ -465,10 +492,16 @@ export default function Navbar() {
           gap: clamp(2px, 1vw, 4px);
         }
         .logo-dot {
-          font-size: clamp(4px, 1vw, 6px);
+          font-size: clamp(15px, 2vw, 20px);
           color: var(--c-accent);
           vertical-align: middle;
           animation: pulse 2.4s ease-in-out infinite;
+        }
+        [data-theme="dark"] .logo-dot {
+          color: #00e5c4;
+        }
+        [data-theme="light"] .logo-dot {
+          color: #A855F7;
         }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
@@ -540,33 +573,38 @@ export default function Navbar() {
           transition: color var(--trans), background var(--trans), border-color var(--trans);
           white-space: nowrap;
         }
-        .cat-trigger:hover { color: var(--c-text); background: rgba(255,255,255,0.06); }
-        .cat-trigger--active { color: var(--c-accent); background: rgba(0,229,196,0.08); border-color: rgba(0,229,196,0.2); }
-        [data-theme="light"] .cat-trigger:hover { background: rgba(0,0,0,0.05); }
+        .cat-trigger:hover { color: var(--logo-accent); }
+        [data-theme="dark"] .cat-trigger:hover { background: rgba(255,255,255,0.06); box-shadow: 0 6px 20px rgba(0,229,196,0.06); border-color: rgba(0,229,196,0.12); }
+        [data-theme="light"] .cat-trigger:hover { background: rgba(0,0,0,0.05); box-shadow: 0 6px 20px rgba(124,58,237,0.06); border-color: rgba(124,58,237,0.12); }
+        .cat-trigger--active { color: var(--logo-accent); }
+        [data-theme="dark"] .cat-trigger--active { background: rgba(0,229,196,0.08); border-color: rgba(0,229,196,0.2); box-shadow: 0 8px 28px rgba(0,229,196,0.08); }
+        [data-theme="light"] .cat-trigger--active { background: rgba(124,58,237,0.08); border-color: rgba(124,58,237,0.2); box-shadow: 0 8px 28px rgba(124,58,237,0.08); }
         .cat-chevron { transition: transform 0.25s ease; }
         .cat-chevron--open { transform: rotate(180deg); }
 
         .cat-panel {
           position: absolute;
-          top: calc(100% + 12px);
+          top: calc(100% + 14px);
           left: 0;
           min-width: clamp(220px, 80vw, 240px);
           background: var(--c-surface);
           border: 1px solid var(--c-border-hi);
           border-radius: var(--radius-lg);
           overflow: hidden;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,229,196,0.06);
+          box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.03);
           animation: panelIn 0.18s ease;
           max-height: 80vh;
           overflow-y: auto;
         }
+        [data-theme="dark"] .cat-panel { box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,229,196,0.06); }
+        [data-theme="light"] .cat-panel { box-shadow: 0 20px 60px rgba(0,0,0,0.06), 0 0 0 1px rgba(124,58,237,0.06); }
         @keyframes panelIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
         .cat-panel-inner { padding: clamp(4px, 1vw, 6px); }
         .cat-panel-glow {
           position: absolute;
-          top: 0; left: 0; right: 0;
+          top: 0; left: 10; right: 0;
           height: 2px;
-          background: linear-gradient(90deg, var(--c-accent), var(--c-accent2));
+          background: linear-gradient(90deg, var(--logo-accent), var(--logo-accent2));
         }
         .cat-item {
           display: flex;
@@ -580,9 +618,24 @@ export default function Navbar() {
           font-size: clamp(12px, 1.5vw, 13px);
           font-weight: 500;
           transition: background var(--trans), color var(--trans);
+          position: relative;
         }
-        .cat-item:hover { background: rgba(0,229,196,0.08); color: var(--c-accent); }
-        [data-theme="light"] .cat-item:hover { background: rgba(0,180,154,0.07); }
+        [data-theme="dark"] .cat-item:hover { background: rgba(0,229,196,0.08); color: var(--logo-accent); }
+        [data-theme="light"] .cat-item:hover { background: rgba(124,58,237,0.08); color: var(--logo-accent); }
+        .cat-item::before {
+          content: '';
+          position: absolute;
+          left: 5px;
+          top: 8px;
+          bottom: 8px;
+          width: 4px;
+          border-radius: 4px;
+          opacity: 0;
+          transform: scaleY(0.6);
+          transition: opacity var(--trans), transform var(--trans);
+          background: linear-gradient(180deg, var(--logo-accent), var(--logo-accent2));
+        }
+        .cat-item:hover::before { opacity: 1; transform: scaleY(1); }
         .cat-icon-wrap {
           display: flex; align-items: center; justify-content: center;
           width: clamp(26px, 4vw, 30px);
@@ -594,7 +647,8 @@ export default function Navbar() {
           transition: background var(--trans);
           font-size: clamp(14px, 2vw, 16px);
         }
-        .cat-item:hover .cat-icon-wrap { background: rgba(0,229,196,0.15); }
+        [data-theme="dark"] .cat-item:hover .cat-icon-wrap { background: rgba(0,229,196,0.15); }
+        [data-theme="light"] .cat-item:hover .cat-icon-wrap { background: rgba(124,58,237,0.12); }
         [data-theme="light"] .cat-icon-wrap { background: rgba(0,0,0,0.04); }
         .cat-label { flex: 1; }
         .cat-arrow { opacity: 0; transform: translateX(-4px); transition: opacity var(--trans), transform var(--trans); }
@@ -720,22 +774,51 @@ export default function Navbar() {
           font-size: clamp(11px, 2vw, 12.5px);
           letter-spacing: 0.06em;
           text-decoration: none;
-          color: #0a0a0f;
-          background: var(--c-accent);
           padding: 0 clamp(12px, 2vw, 16px);
           height: clamp(32px, 6vw, 36px);
-          border-radius: 50px;
-          transition: background var(--trans), transform 0.15s ease, box-shadow var(--trans);
+          border-radius: 999px;
           white-space: nowrap;
           flex-shrink: 0;
+          transition: all 0.25s ease;
         }
-        .login-btn:hover {
-          background: #00ffde;
-          transform: translateY(-1px);
-          box-shadow: 0 6px 20px rgba(0,229,196,0.35);
+
+        /* Dark Theme */
+        [data-theme="dark"] .login-btn {
+          color: #7DD3FC;
+          background: rgba(125, 211, 252, 0.10);
+          border: 1px solid rgba(125, 211, 252, 0.18);
+          box-shadow: 0 8px 24px rgba(125, 211, 252, 0.10);
         }
-        .login-btn:active { transform: translateY(0); }
-        @media (min-width: 640px) { .login-btn { display: inline-flex; } }
+
+        [data-theme="dark"] .login-btn:hover {
+          background: rgba(125, 211, 252, 0.16);
+          border-color: rgba(125, 211, 252, 0.28);
+          box-shadow: 0 12px 30px rgba(125, 211, 252, 0.16);
+        }
+
+        /* Light Theme */
+        [data-theme="light"] .login-btn {
+          color: #7C3AED;
+          background: rgba(168, 85, 247, 0.12);
+          border: 1px solid rgba(168, 85, 247, 0.18);
+          box-shadow: 0 8px 24px rgba(168, 85, 247, 0.12);
+        }
+
+        [data-theme="light"] .login-btn:hover {
+          background: rgba(168, 85, 247, 0.18);
+          border-color: rgba(168, 85, 247, 0.28);
+          box-shadow: 0 12px 30px rgba(168, 85, 247, 0.18);
+        }
+
+        .login-btn:active {
+          transform: scale(0.97);
+        }
+
+        @media (min-width: 640px) {
+          .login-btn {
+            display: inline-flex;
+          }
+        }
 
         /* ─ Hamburger ─ */
         .hamburger {
@@ -824,7 +907,7 @@ export default function Navbar() {
         .mobile-link:hover { background: rgba(255,255,255,0.06); }
         [data-theme="light"] .mobile-link:hover { background: rgba(0,0,0,0.04); }
         .mobile-link--cat { color: var(--c-muted); font-weight: 500; }
-        .mobile-link--cat:hover { color: var(--c-accent); }
+        .mobile-link--cat:hover { color: var(--logo-accent); }
 
         .mobile-footer {
           margin-top: clamp(1rem, 3vw, 1.5rem);

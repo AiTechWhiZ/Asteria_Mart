@@ -328,7 +328,7 @@ export default function Home() {
 
   return (
     <div
-      className={`min-h-screen ${t.root} ${t.selection} font-[system-ui] antialiased`}
+      className={`min-h-screen overflow-x-clip ${t.root} ${t.selection} font-[system-ui] antialiased`}
     >
       {/* ══════════════════════════════════════════════════
           HERO
@@ -498,7 +498,7 @@ export default function Home() {
               className={`absolute inset-4 rounded-3xl blur-3xl ${dark ? "bg-gradient-to-br from-cyan-500/20 via-blue-600/15 to-violet-600/20" : "bg-gradient-to-br from-violet-400/25 via-fuchsia-300/20 to-blue-400/20"}`}
             />
 
-            <div className="relative w-full max-w-[460px]">
+            <div className="relative w-full max-w-[460px] overflow-x-clip sm:overflow-visible">
               {/* Outer frame */}
               <div
                 className={`relative overflow-hidden rounded-[2rem] border p-1.5 ${t.heroFrame} transition-all duration-700`}
@@ -524,7 +524,7 @@ export default function Home() {
                     ease: "easeInOut",
                   },
                 }}
-                className={`absolute -right-3 top-10 rounded-2xl border px-4 py-3 backdrop-blur-xl shadow-2xl ${dark ? "border-white/[0.08] bg-black/65" : "border-white/70 bg-white/90 shadow-[0_8px_32px_rgba(0,0,0,0.10)]"}`}
+                className={`absolute right-3 top-44 rounded-2xl border px-4 py-3 backdrop-blur-xl shadow-2xl ${dark ? "border-white/[0.08] bg-black/65" : "border-white/70 bg-white/90 shadow-[0_8px_32px_rgba(0,0,0,0.10)]"}`}
               >
                 <div className="flex items-center gap-2.5">
                   <div
@@ -564,7 +564,7 @@ export default function Home() {
                     ease: "easeInOut",
                   },
                 }}
-                className={`absolute -left-3 bottom-10 rounded-2xl border px-4 py-3 backdrop-blur-xl shadow-2xl ${dark ? "border-white/[0.08] bg-black/65" : "border-white/70 bg-white/90 shadow-[0_8px_32px_rgba(0,0,0,0.10)]"}`}
+                className={`absolute left-3 bottom-10 rounded-2xl border px-4 py-3 backdrop-blur-xl shadow-2xl ${dark ? "border-white/[0.08] bg-black/65" : "border-white/70 bg-white/90 shadow-[0_8px_32px_rgba(0,0,0,0.10)]"}`}
               >
                 <div className="flex items-center gap-2.5">
                   <div
@@ -598,7 +598,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════
           CATEGORIES
       ══════════════════════════════════════════════════ */}
-      <section className="relative mx-auto max-w-7xl px-5 py-5 lg:px-12">
+      <section className="relative mx-auto max-w-7xl px-5 py-5 sm:px-9 lg:px-12">
         <div className="flex items-end justify-between gap-4">
           <div>
             <SectionLabel color={dark ? "text-cyan-400" : "text-violet-500"}>
@@ -658,7 +658,7 @@ export default function Home() {
                       <Icon size={21} />
                     </div>
 
-                    <div className="sm:mt-8">
+                    <div className="sm:mt-6 lg:mt-10">
                       <p
                         className={`font-black text-[14px] ${
                           dark ? "text-white" : "text-zinc-900"

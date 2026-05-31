@@ -155,8 +155,8 @@ function SearchBar({ onSubmit, query, setQuery }) {
   );
 }
 
-function IconBtn({ children, label, to, onClick, badge }) {
-  const cls = "icon-btn";
+function IconBtn({ children, label, to, onClick, badge, className = "" }) {
+  const cls = `icon-btn${className ? ` ${className}` : ""}`;
   const inner = (
     <>
       {children}
@@ -241,41 +241,60 @@ export default function Navbar() {
             setQuery={setQuery}
           />
 
-          {/* Actions */}
-          <div className="action-strip">
-            <IconBtn
-              label={dark ? "Light mode" : "Dark mode"}
-              onClick={toggleTheme}
-            >
-              {dark ? <Sun size={18} /> : <Moon size={18} />}
-            </IconBtn>
-
-            {isAdmin && (
-              <IconBtn label="Admin dashboard" to="/admin">
-                <LayoutDashboard size={18} />
+          {/* Right cluster — cart/actions + menu always stay in viewport */}
+          <div className="nav-end">
+            <div className="action-strip">
+              {/* Mobile search icon - only shows below 500px */}
+              <IconBtn
+                className="icon-btn--mobile-search"
+                label="Search"
+                onClick={() => setMobileOpen(true)}
+              >
+                <Search size={18} />
               </IconBtn>
-            )}
 
-            <IconBtn label="Wishlist" to="/wishlist">
-              <Heart size={18} />
-            </IconBtn>
-
-            <IconBtn label={`Cart – ${count} items`} to="/cart" badge={count}>
-              <ShoppingBag size={18} />
-            </IconBtn>
-
-            {user ? (
-              <IconBtn label="Your profile" to="/profile">
-                <User size={18} />
+              <IconBtn
+                className="icon-btn--compact-hide icon-btn--theme"
+                label={dark ? "Light mode" : "Dark mode"}
+                onClick={toggleTheme}
+              >
+                {dark ? <Sun size={18} /> : <Moon size={18} />}
               </IconBtn>
-            ) : (
-              <Link to="/login" className="login-btn">
-                <User size={15} />
-                <span>Sign in</span>
-              </Link>
-            )}
 
-            {/* Hamburger */}
+              {isAdmin && (
+                <IconBtn
+                  className="icon-btn--compact-hide icon-btn--admin"
+                  label="Admin dashboard"
+                  to="/admin"
+                >
+                  <LayoutDashboard size={18} />
+                </IconBtn>
+              )}
+
+              <IconBtn
+                className="icon-btn--compact-hide icon-btn--wishlist"
+                label="Wishlist"
+                to="/wishlist"
+              >
+                <Heart size={18} />
+              </IconBtn>
+
+              <IconBtn label={`Cart – ${count} items`} to="/cart" badge={count}>
+                <ShoppingBag size={18} />
+              </IconBtn>
+
+              {user ? (
+                <IconBtn label="Your profile" to="/profile">
+                  <User size={18} />
+                </IconBtn>
+              ) : (
+                <Link to="/login" className="login-btn">
+                  <User size={15} />
+                  <span>Sign in</span>
+                </Link>
+              )}
+            </div>
+
             <button
               className="hamburger"
               onClick={() => setMobileOpen((o) => !o)}
@@ -333,6 +352,35 @@ export default function Navbar() {
           </Link>
         ))}
 
+        <div className="mobile-section-label" style={{ marginTop: "1.25rem" }}>
+          Account
+        </div>
+        <Link
+          to="/wishlist"
+          className="mobile-link mobile-link--cat"
+          onClick={() => setMobileOpen(false)}
+        >
+          <Heart size={16} aria-hidden="true" />
+          Wishlist
+        </Link>
+        {isAdmin && (
+          <Link
+            to="/admin"
+            className="mobile-link mobile-link--cat"
+            onClick={() => setMobileOpen(false)}
+          >
+            <LayoutDashboard size={16} aria-hidden="true" />
+            Admin dashboard
+          </Link>
+        )}
+        <button
+          className="mobile-link mobile-link--cat mobile-theme-btn"
+          onClick={toggleTheme}
+        >
+          {dark ? <Sun size={16} aria-hidden="true" /> : <Moon size={16} aria-hidden="true" />}
+          {dark ? "Light mode" : "Dark mode"}
+        </button>
+
         <div className="mobile-footer">
           {user ? (
             <button
@@ -367,8 +415,11 @@ export default function Navbar() {
 
       {/* ── All styles ── */}
       <style>{`
-        /* ─ Reset & base ─ */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        /* ─ Reset (scoped to navbar only — avoid breaking page layouts) ─ */
+        .navbar *, .navbar *::before, .navbar *::after,
+        .mobile-drawer *, .mobile-drawer *::before, .mobile-drawer *::after {
+          box-sizing: border-box;
+        }
         .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
 
         /* ─ CSS variables ─ */
@@ -415,6 +466,8 @@ export default function Navbar() {
           top: 0;
           z-index: 100;
           width: 100%;
+          max-width: 100%;
+          overflow-x: clip;
           height: var(--nav-h);
           background: var(--c-glass);
           backdrop-filter: saturate(180%) blur(20px);
@@ -441,10 +494,20 @@ export default function Navbar() {
           max-width: 1360px;
           margin: 0 auto;
           height: 100%;
+          width: 100%;
           padding: 0 clamp(0.75rem, 4vw, 1.5rem);
           display: flex;
           align-items: center;
           gap: clamp(0.25rem, 1vw, 0.75rem);
+          min-width: 0;
+        }
+
+        .nav-end {
+          display: flex;
+          align-items: center;
+          gap: clamp(2px, 1vw, 6px);
+          margin-left: auto;
+          flex-shrink: 0;
         }
 
         /* ─ Logo ─ */
@@ -490,6 +553,10 @@ export default function Navbar() {
           display: flex;
           align-items: center;
           gap: clamp(2px, 1vw, 4px);
+        }
+        @media (max-width: 767px) {
+          .logo-text { display: none !important; }
+          .logo-wrap { margin-right: 0; }
         }
         .logo-dot {
           font-size: clamp(15px, 2vw, 20px);
@@ -673,14 +740,16 @@ export default function Navbar() {
         @media (min-width: 768px) { 
           .search-form { 
             display: flex;
-            flex: 0 1 auto;
-            max-width: clamp(220px, 35vw, 360px);
-            margin: 0 clamp(0.5rem, 2vw, 1.25rem);
+            flex: 1 1 auto;
+            min-width: 0;
+            max-width: clamp(140px, 28vw, 360px);
+            margin: 0 clamp(0.25rem, 1.5vw, 1.25rem);
           } 
         }
         @media (min-width: 1024px) {
           .search-form {
             flex: 1;
+            max-width: 360px;
             margin: 0 1.25rem;
           }
         }
@@ -719,9 +788,12 @@ export default function Navbar() {
           display: flex;
           align-items: center;
           gap: clamp(2px, 1vw, 8px);
-          margin-left: auto;
           flex-shrink: 0;
+          min-width: 0;
         }
+
+        /* Hide secondary icons on tablet/mobile to keep cart + menu visible */
+        /* NOTE: must come AFTER .icon-btn so display:inline-flex doesn't override */
 
         /* ─ Icon button ─ */
         .icon-btn {
@@ -740,6 +812,12 @@ export default function Navbar() {
           transition: background var(--trans), color var(--trans), border-color var(--trans), transform 0.15s ease;
           flex-shrink: 0;
         }
+        /* Hide mobile search icon for screens above 769px */
+        @media (min-width: 770px) {
+          .icon-btn--mobile-search {
+            display: none !important;
+          }
+        }
         .icon-btn:hover {
           background: rgba(255,255,255,0.08);
           color: var(--c-text);
@@ -748,6 +826,7 @@ export default function Navbar() {
         }
         .icon-btn:active { transform: translateY(0) scale(0.95); }
         [data-theme="light"] .icon-btn:hover { background: rgba(0,0,0,0.06); }
+
         .icon-badge {
           position: absolute;
           top: 1px; right: 1px;
@@ -819,6 +898,14 @@ export default function Navbar() {
             display: inline-flex;
           }
         }
+        @media (min-width: 640px) and (max-width: 1023px) {
+          .login-btn span { display: none; }
+          .login-btn {
+            width: clamp(32px, 8vw, 38px);
+            padding: 0;
+            justify-content: center;
+          }
+        }
 
         /* ─ Hamburger ─ */
         .hamburger {
@@ -841,16 +928,28 @@ export default function Navbar() {
         /* ─ Mobile drawer ─ */
         .mobile-drawer {
           position: fixed;
-          inset: var(--nav-h) 0 0 0;
+          top: var(--nav-h);
+          right: 0;
+          bottom: 0;
+          left: auto;
+          width: min(100%, 320px);
           z-index: 99;
           background: var(--c-surface);
           border-top: 1px solid var(--c-border-hi);
+          border-left: 1px solid var(--c-border-hi);
           padding: clamp(1rem, 5vw, 1.25rem);
           overflow-y: auto;
+          overflow-x: hidden;
           transform: translateX(100%);
           transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+          visibility: hidden;
+          pointer-events: none;
         }
-        .mobile-drawer--open { transform: translateX(0); }
+        .mobile-drawer--open {
+          transform: translateX(0);
+          visibility: visible;
+          pointer-events: auto;
+        }
         @media (min-width: 1024px) { .mobile-drawer { display: none; } }
 
         .mobile-backdrop {
@@ -908,6 +1007,14 @@ export default function Navbar() {
         [data-theme="light"] .mobile-link:hover { background: rgba(0,0,0,0.04); }
         .mobile-link--cat { color: var(--c-muted); font-weight: 500; }
         .mobile-link--cat:hover { color: var(--logo-accent); }
+        .mobile-theme-btn {
+          width: 100%;
+          background: none;
+          border: none;
+          cursor: pointer;
+          text-align: left;
+          font-family: inherit;
+        }
 
         .mobile-footer {
           margin-top: clamp(1rem, 3vw, 1.5rem);
@@ -933,6 +1040,182 @@ export default function Navbar() {
           padding: 0;
         }
         .mobile-logout:hover { color: var(--c-accent3); }
+
+        /* ─ Mobile overrides (must stay last) ─ */
+        @media (max-width: 1023px) {
+          .action-strip .icon-btn.icon-btn--compact-hide {
+            display: none;
+          }
+          /* Ensure mobile search icon is visible below 1024px */
+          .action-strip .icon-btn--mobile-search {
+            display: inline-flex !important;
+          }
+        }
+
+        /* Below 500px: show only logo, search, theme, wishlist, cart, menu */
+        @media (max-width: 500px) {
+          /* Show mobile search icon */
+          .icon-btn--mobile-search {
+            display: inline-flex !important;
+          }
+
+          /* Show theme icon */
+          .icon-btn--theme {
+            display: inline-flex !important;
+          }
+
+          /* Show wishlist icon */
+          .icon-btn--wishlist {
+            display: inline-flex !important;
+          }
+
+          /* Show admin icon (when logged in as admin) */
+          .icon-btn--admin {
+            display: inline-flex !important;
+          }
+
+          /* Hide user icon (cart and mobile search are the only icons without compact-hide that should remain) */
+          .action-strip > .icon-btn:not(.icon-btn--compact-hide):not([aria-label*="Cart"]):not(.icon-btn--mobile-search) {
+            display: none !important;
+          }
+
+          /* Hide login button */
+          .action-strip > .login-btn {
+            display: none !important;
+          }
+
+          /* Ensure logo text is visible */
+          .logo-text {
+            display: flex !important;
+          }
+        }
+
+        /* Below 800px when logged in as admin: show admin dashboard button */
+        @media (max-width: 799px) {
+          /* Show admin icon */
+          .icon-btn--admin {
+            display: inline-flex !important;
+          }
+        }
+
+        /* Between 500-769px: show logo and specific icons, hide nav links */
+        @media (min-width: 501px) and (max-width: 769px) {
+          /* Hide desktop nav (Home and Products) */
+          .desktop-nav {
+            display: none !important;
+          }
+
+          /* Hide category dropdown */
+          .cat-root {
+            display: none;
+          }
+
+          /* Hide search bar */
+          .search-form {
+            display: none !important;
+          }
+
+          /* Show theme icon */
+          .icon-btn--theme {
+            display: inline-flex !important;
+          }
+
+          /* Show wishlist icon */
+          .icon-btn--wishlist {
+            display: inline-flex !important;
+          }
+
+          /* Show admin icon (when logged in as admin) */
+          .icon-btn--admin {
+            display: inline-flex !important;
+          }
+
+          /* Hide user icon (cart and mobile search are the only icons without compact-hide that should remain) */
+          .action-strip > .icon-btn:not(.icon-btn--compact-hide):not([aria-label*="Cart"]):not(.icon-btn--mobile-search) {
+            display: none !important;
+          }
+
+          /* Hide login button */
+          .action-strip > .login-btn {
+            display: none !important;
+          }
+
+          /* Ensure logo text is visible */
+          .logo-text {
+            display: flex !important;
+          }
+        }
+
+        /* Between 769-1024px: show logo, search, nav links, and specific icons */
+        @media (min-width: 770px) and (max-width: 1024px) {
+          /* Show desktop nav (Home and Products) */
+          .desktop-nav {
+            display: flex !important;
+          }
+
+          /* Hide category dropdown */
+          .cat-root {
+            display: none;
+          }
+
+          /* Show search bar */
+          .search-form {
+            display: flex !important;
+          }
+
+          /* Hide mobile search icon */
+          .icon-btn--mobile-search {
+            display: none !important;
+          }
+
+          /* Show theme icon */
+          .icon-btn--theme {
+            display: inline-flex !important;
+          }
+
+          /* Show wishlist icon */
+          .icon-btn--wishlist {
+            display: inline-flex !important;
+          }
+
+          /* Show admin icon (when logged in as admin) */
+          .icon-btn--admin {
+            display: inline-flex !important;
+          }
+
+          /* Hide user icon (cart is the only icon without compact-hide that should remain) */
+          .action-strip > .icon-btn:not(.icon-btn--compact-hide):not([aria-label*="Cart"]) {
+            display: none !important;
+          }
+
+          /* Hide login button */
+          .action-strip > .login-btn {
+            display: none !important;
+          }
+
+          /* Ensure logo text is visible */
+          .logo-text {
+            display: flex !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .navbar-inner {
+            padding: 0 0.5rem;
+            gap: 0.25rem;
+          }
+          .nav-end {
+            gap: 2px;
+          }
+          .icon-btn,
+          .hamburger {
+            width: 32px;
+            height: 32px;
+          }
+          .action-strip {
+            gap: 2px;
+          }
+        }
       `}</style>
     </>
   );

@@ -21,9 +21,9 @@ import AdminUsers from "./pages/admin/AdminUsers.jsx";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-stone-50 text-zinc-950 transition-colors dark:bg-zinc-950 dark:text-stone-50">
+    <div className="min-h-screen overflow-x-clip bg-stone-50 text-zinc-950 transition-colors dark:bg-zinc-950 dark:text-stone-50">
       <Navbar />
-      <main className="min-h-[72vh]">
+      <main className="min-h-[72vh] overflow-x-clip">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />

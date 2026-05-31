@@ -4,8 +4,21 @@
 @tailwind utilities;
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; font-family: Inter, system-ui, sans-serif; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+#root {
+  overflow-x: hidden;
+  max-width: 100%;
+}
 
 .glass {
   border: 1px solid rgba(255, 255, 255, .22);

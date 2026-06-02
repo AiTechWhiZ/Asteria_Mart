@@ -12,7 +12,7 @@ import {
 export default function Footer() {
   return (
     <footer className="border-t border-zinc-200 bg-white text-zinc-900 dark:border-white/[0.06] dark:bg-[#040710] dark:text-white">
-      <div className="mx-auto max-w-7xl px-5 py-16 lg:px-12">
+      <div className="mx-auto max-w-none px-5 py-16 lg:px-12">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
           {/* Brand */}
           <div>

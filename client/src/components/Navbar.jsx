@@ -491,7 +491,7 @@ export default function Navbar() {
         .navbar--scrolled .navbar-accent-line { opacity: 0.9; }
 
         .navbar-inner {
-          max-width: 1360px;
+          max-width: 100%;
           margin: 0 auto;
           height: 100%;
           width: 100%;

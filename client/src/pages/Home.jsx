@@ -379,7 +379,7 @@ export default function Home() {
             opacity: heroOpacity,
             willChange: "transform, opacity",
           }}
-          className="relative mx-auto grid max-w-7xl items-center gap-10 px-5 py-10 mb-10 lg:grid-cols-[1.15fr_0.85fr] lg:px-12 lg:py-20"
+          className="relative mx-auto grid max-w-none items-center gap-10 px-5 py-10 mb-10 lg:grid-cols-[1.15fr_0.85fr] lg:px-12 lg:py-20"
         >
           {/* ── Left copy ── */}
           <div className="flex flex-col">
@@ -598,7 +598,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════
           CATEGORIES
       ══════════════════════════════════════════════════ */}
-      <section className="relative mx-auto max-w-7xl px-5 py-5 sm:px-9 lg:px-12">
+      <section className="relative mx-auto max-w-none px-5 py-5 sm:px-9 lg:px-12">
         <div className="flex items-end justify-between gap-4">
           <div>
             <SectionLabel color={dark ? "text-cyan-400" : "text-violet-500"}>
@@ -687,7 +687,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════
           FEATURED PRODUCTS
       ══════════════════════════════════════════════════ */}
-      <section className="relative mx-auto max-w-7xl px-5 py-6 lg:px-12">
+      <section className="relative mx-auto max-w-none px-5 py-6 lg:px-12">
         <div className="flex items-end justify-between gap-4">
           <div>
             <SectionLabel color={dark ? "text-violet-400" : "text-violet-500"}>
@@ -739,7 +739,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════
           OFFERS BANNER
       ══════════════════════════════════════════════════ */}
-      <section className="mx-auto max-w-7xl px-5 py-5 lg:px-12">
+      <section className="mx-auto max-w-none px-5 py-5 lg:px-12">
         <motion.div
           {...fadeUp(0)}
           className="relative overflow-hidden rounded-3xl"
@@ -795,7 +795,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════
           TRENDING
       ══════════════════════════════════════════════════ */}
-      <section className="mx-auto max-w-7xl px-5 py-5 lg:px-12">
+      <section className="mx-auto max-w-none px-5 py-5 lg:px-12">
         <div className="flex items-end justify-between gap-4">
           <div>
             <SectionLabel color={dark ? "text-pink-400" : "text-pink-500"}>
@@ -847,7 +847,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════
           TRUST
       ══════════════════════════════════════════════════ */}
-      <section className="mx-auto max-w-7xl px-5 py-5 lg:px-12">
+      <section className="mx-auto max-w-none px-5 py-5 lg:px-12">
         <div className="text-center">
           <SectionLabel color={dark ? "text-emerald-400" : "text-emerald-600"}>
             <span className="mx-auto">Why Astaria</span>
@@ -910,7 +910,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════
           NEWSLETTER
       ══════════════════════════════════════════════════ */}
-      <section className="mx-auto max-w-7xl px-5 py-5 lg:px-12">
+      <section className="mx-auto max-w-none px-5 py-5 lg:px-12">
         <motion.div
           {...fadeUp(0)}
           className={`relative overflow-hidden rounded-3xl border p-10 text-center lg:p-16 ${t.newsletterCard}`}
